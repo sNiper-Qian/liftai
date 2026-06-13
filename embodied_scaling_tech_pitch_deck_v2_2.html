@@ -1,0 +1,1693 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LIFTAI 具身升维科技 商业计划书 (Pitch Deck)</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;600;700&family=Urbanist:wght@400;600;700&family=Noto+Sans+SC:wght@300;400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <style>
+        /* CSS RESET & VARIABLES */
+        :root {
+            --color-bg-deep: #030712;
+            --color-bg-card: rgba(17, 24, 39, 0.7);
+            --color-primary: #38bdf8; /* Sky Blue */
+            --color-secondary: #06b6d4; /* Cyan */
+            --color-accent: #8b5cf6; /* Royal Purple */
+            --color-text-bright: #f9fafb;
+            --color-text-muted: #9ca3af;
+            --color-border: rgba(56, 189, 248, 0.15);
+            --color-border-active: rgba(56, 189, 248, 0.5);
+            --font-display: 'Urbanist', 'Space Grotesk', 'Noto Sans SC', sans-serif;
+            --font-body: 'Noto Sans SC', sans-serif;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            user-select: none;
+        }
+
+        body {
+            background-color: var(--color-bg-deep);
+            color: var(--color-text-bright);
+            font-family: var(--font-body);
+            overflow: hidden;
+            width: 100vw;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            margin: 0;
+        }
+
+        /* FIXED ASPECT RATIO CANVAS (16:9 - 1280x720) */
+        #deck-viewport {
+            width: 1280px;
+            height: 720px;
+            background: radial-gradient(circle at 80% 20%, rgba(56, 189, 248, 0.08) 0%, transparent 60%),
+                        radial-gradient(circle at 10% 80%, rgba(139, 92, 246, 0.05) 0%, transparent 50%),
+                        #020617;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            position: absolute;
+            left: 50%;
+            top: 50%;
+            transform: translate(-50%, -50%) scale(1);
+            overflow: hidden;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.8);
+            border-radius: 12px;
+            display: flex;
+            flex-direction: column;
+            transform-origin: center center;
+        }
+
+        /* PRESENTATION CONTROL BAR */
+        #control-bar {
+            position: absolute;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: rgba(15, 23, 42, 0.85);
+            backdrop-filter: blur(12px);
+            border: 1px solid var(--color-border);
+            padding: 8px 20px;
+            border-radius: 9999px;
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            z-index: 100;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.5);
+            transition: opacity 0.3s;
+        }
+
+        #control-bar:hover {
+            opacity: 1;
+        }
+
+        .btn-ctrl {
+            background: none;
+            border: none;
+            color: var(--color-text-bright);
+            cursor: pointer;
+            font-size: 16px;
+            width: 32px;
+            height: 32px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            transition: all 0.2s;
+        }
+
+        .btn-ctrl:hover {
+            background: rgba(56, 189, 248, 0.2);
+            color: var(--color-primary);
+        }
+
+        #slide-indicator {
+            font-family: var(--font-display);
+            font-weight: 600;
+            font-size: 14px;
+            color: var(--color-text-muted);
+            min-width: 60px;
+            text-align: center;
+        }
+
+        /* SLIDES WRAPPER */
+        #slides-container {
+            width: 100%;
+            height: 100%;
+            position: relative;
+        }
+
+        .slide {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.4s ease-in-out, transform 0.4s cubic-bezier(0.25, 1, 0.5, 1);
+            transform: scale(0.98);
+            padding: 60px 80px 100px 80px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            background: #020617;
+        }
+
+        .slide.active {
+            opacity: 1;
+            pointer-events: auto;
+            transform: scale(1);
+        }
+
+        /* SLIDE COMMON HEADER */
+        .slide-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            border-bottom: 1px solid rgba(56, 189, 248, 0.1);
+            padding-bottom: 15px;
+            margin-bottom: 25px;
+        }
+
+        .slide-title-group h2 {
+            font-size: 34px;
+            font-weight: 700;
+            letter-spacing: -0.5px;
+            background: linear-gradient(to right, #ffffff, var(--color-primary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            font-family: var(--font-display);
+            border-left: 8px solid var(--color-primary);
+            padding-left: 15px;
+        }
+
+        .slide-title-group h2 i {
+            color: var(--color-primary);
+            font-size: 26px;
+        }
+
+        .slide-subtitle-en {
+            font-family: var(--font-display);
+            font-size: 12px;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            color: var(--color-accent);
+            margin-top: 4px;
+            padding-left: 23px;
+        }
+
+        .slide-logo {
+            font-family: var(--font-display);
+            font-weight: 700;
+            font-size: 16px;
+            letter-spacing: 1px;
+            color: var(--color-text-bright);
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            background: rgba(56, 189, 248, 0.05);
+            padding: 6px 12px;
+            border-radius: 6px;
+            border: 1px solid var(--color-border);
+        }
+
+        .slide-logo span {
+            color: var(--color-primary);
+        }
+
+        .slide-content {
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            min-height: 0;
+        }
+
+        /* FOOTER BRANDING */
+        .slide-footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 12px;
+            color: var(--color-text-muted);
+            margin-top: 20px;
+            border-top: 1px solid rgba(255,255,255,0.03);
+            padding-top: 10px;
+        }
+
+        .slide-footer-left {
+            display: flex;
+            gap: 20px;
+        }
+
+        /* LAYOUT UTILITIES */
+        .grid-2 {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 40px;
+            align-items: center;
+        }
+
+        .grid-3 {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 24px;
+        }
+
+        .grid-4 {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 20px;
+        }
+
+        /* CARD STYLE */
+        .tech-card {
+            background: var(--color-bg-card);
+            border: 1px solid var(--color-border);
+            border-radius: 12px;
+            padding: 24px;
+            position: relative;
+            overflow: hidden;
+            transition: all 0.3s;
+        }
+
+        .tech-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 2px;
+            background: linear-gradient(90deg, transparent, var(--color-primary), transparent);
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+
+        .tech-card:hover {
+            border-color: var(--color-border-active);
+            box-shadow: 0 10px 30px rgba(56, 189, 248, 0.1);
+            transform: translateY(-2px);
+        }
+
+        .tech-card:hover::before {
+            opacity: 1;
+        }
+
+        .hl {
+            color: var(--color-primary);
+            font-weight: 600;
+        }
+
+        /* COVER SLIDE STYLE */
+        .cover-layout {
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            position: relative;
+        }
+
+        .cover-badge {
+            background: rgba(56, 189, 248, 0.1);
+            border: 1px solid var(--color-primary);
+            color: var(--color-primary);
+            padding: 6px 16px;
+            border-radius: 9999px;
+            font-size: 13px;
+            font-weight: 600;
+            letter-spacing: 1.5px;
+            margin-bottom: 24px;
+            text-transform: uppercase;
+        }
+
+        .cover-title {
+            font-size: 72px;
+            font-weight: 700;
+            line-height: 1.15;
+            letter-spacing: -1.5px;
+            margin-bottom: 16px;
+            background: linear-gradient(to right, #ffffff, #93c5fd, var(--color-primary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            font-family: var(--font-display);
+        }
+
+        .cover-subtitle {
+            font-size: 24px;
+            color: #e2e8f0;
+            margin-bottom: 40px;
+            font-weight: 300;
+            letter-spacing: 1px;
+        }
+
+        .cover-meta {
+            display: flex;
+            gap: 40px;
+            font-size: 14px;
+            color: var(--color-text-muted);
+            border-top: 1px solid rgba(255,255,255,0.08);
+            padding-top: 24px;
+            width: 80%;
+            justify-content: center;
+        }
+
+        .cover-meta-item strong {
+            color: var(--color-text-bright);
+        }
+
+        /* TEAM GRID SECTION */
+        .team-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 30px;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .member-card {
+            background: rgba(15, 23, 42, 0.6);
+            border: 1px solid var(--color-border);
+            border-radius: 12px;
+            padding: 24px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .member-card.active, .member-card:hover {
+            border-color: var(--color-primary);
+            background: rgba(56, 189, 248, 0.05);
+            box-shadow: 0 0 20px rgba(56, 189, 248, 0.15);
+        }
+
+        .avatar-placeholder {
+            width: 90px;
+            height: 90px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, rgba(56, 189, 248, 0.2), rgba(139, 92, 246, 0.2));
+            margin: 0 auto 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: 2px solid rgba(56, 189, 248, 0.3);
+            font-size: 32px;
+            color: var(--color-primary);
+        }
+
+        .member-name {
+            font-size: 22px;
+            font-weight: 700;
+            color: var(--color-text-bright);
+            margin-bottom: 4px;
+        }
+
+        .member-role {
+            font-size: 14px;
+            color: var(--color-accent);
+            font-family: var(--font-display);
+            font-weight: 600;
+            margin-bottom: 12px;
+            letter-spacing: 1px;
+        }
+
+        .member-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 6px;
+            justify-content: center;
+        }
+
+        .m-tag {
+            background: rgba(255, 255, 255, 0.05);
+            padding: 2px 10px;
+            border-radius: 4px;
+            font-size: 11px;
+            color: var(--color-text-muted);
+        }
+
+        /* INTERACTIVE SIMULATOR */
+        .simulator-box {
+            background: #0f172a;
+            border-radius: 12px;
+            border: 1px solid var(--color-border);
+            height: 350px;
+            position: relative;
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .sim-grid-overlay {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background-image: linear-gradient(rgba(56, 189, 248, 0.03) 1px, transparent 1px),
+                              linear-gradient(90deg, rgba(56, 189, 248, 0.03) 1px, transparent 1px);
+            background-size: 20px 20px;
+            z-index: 1;
+        }
+
+        .robotic-canvas-simulation {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 2;
+        }
+
+        .sim-panel-controls {
+            position: absolute;
+            bottom: 15px;
+            right: 15px;
+            display: flex;
+            gap: 10px;
+            z-index: 10;
+        }
+
+        .btn-sim {
+            background: rgba(15, 23, 42, 0.9);
+            border: 1px solid var(--color-primary);
+            color: var(--color-primary);
+            padding: 6px 12px;
+            font-size: 12px;
+            font-weight: 600;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .btn-sim:hover {
+            background: var(--color-primary);
+            color: #000;
+        }
+
+        .media-placeholder {
+            background: #090d1a;
+            border: 2px dashed var(--color-border);
+            border-radius: 12px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            color: var(--color-primary);
+            font-size: 14px;
+            position: relative;
+            overflow: hidden;
+            height: 100%;
+            text-align: center;
+            padding: 30px;
+        }
+
+        .media-placeholder i {
+            font-size: 44px;
+            margin-bottom: 15px;
+            opacity: 0.8;
+        }
+
+        /* ROADMAP TIMELINE (SLIDE 11) */
+        .roadmap-timeline {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 28px;
+            position: relative;
+            padding-top: 36px;
+            width: 100%;
+        }
+
+        .roadmap-timeline::before {
+            content: '';
+            position: absolute;
+            top: 18px;
+            left: 8%;
+            right: 8%;
+            height: 2px;
+            background: linear-gradient(to right, var(--color-primary), var(--color-accent), #22c55e);
+            opacity: 0.35;
+        }
+
+        .roadmap-phase {
+            background: var(--color-bg-card);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 14px;
+            padding: 30px 22px 22px;
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            gap: 14px;
+            transition: transform 0.25s ease, border-color 0.25s ease, box-shadow 0.25s ease;
+        }
+
+        .roadmap-phase:hover {
+            transform: translateY(-4px);
+            border-color: var(--phase-color, var(--color-primary));
+            box-shadow: 0 12px 28px -12px var(--phase-color, var(--color-primary));
+        }
+
+        .roadmap-phase-marker {
+            position: absolute;
+            top: -18px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 38px;
+            height: 38px;
+            border-radius: 50%;
+            background: var(--color-bg-deep);
+            border: 2px solid var(--phase-color, var(--color-primary));
+            color: var(--phase-color, var(--color-primary));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: var(--font-display);
+            font-weight: 700;
+            font-size: 15px;
+            z-index: 2;
+            box-shadow: 0 0 0 4px var(--color-bg-deep);
+        }
+
+        .roadmap-phase-time {
+            font-family: var(--font-display);
+            font-size: 11px;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            color: var(--phase-color, var(--color-primary));
+            font-weight: 600;
+        }
+
+        .roadmap-phase-title {
+            font-size: 18px;
+            font-weight: 700;
+            color: #f1f5f9;
+            line-height: 1.3;
+            margin-top: 4px;
+        }
+
+        .roadmap-phase-subhead {
+            font-size: 11px;
+            color: var(--color-text-muted);
+            letter-spacing: 1.5px;
+            text-transform: uppercase;
+            font-family: var(--font-display);
+            margin-top: 6px;
+        }
+
+        .roadmap-phase-list {
+            list-style: none;
+            margin: 0;
+            padding: 14px 0 0 0;
+            border-top: 1px solid rgba(255, 255, 255, 0.06);
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .roadmap-phase-list li {
+            position: relative;
+            padding-left: 22px;
+            font-size: 13px;
+            color: #cbd5e1;
+            line-height: 1.55;
+        }
+
+        .roadmap-phase-list li::before {
+            content: '\f00c';
+            font-family: 'Font Awesome 6 Free';
+            font-weight: 900;
+            position: absolute;
+            left: 0;
+            top: 3px;
+            font-size: 10px;
+            color: var(--phase-color, var(--color-primary));
+        }
+
+        /* ROADMAP TAB-BTN PANEL */
+        .milestone-content-card {
+            background: rgba(15, 23, 42, 0.8);
+            border: 1px solid var(--color-primary);
+            border-radius: 12px;
+            padding: 30px;
+            min-height: 200px;
+        }
+
+        .milestone-subheading {
+            font-size: 13px;
+            color: var(--color-accent);
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            margin-bottom: 10px;
+            font-family: var(--font-display);
+        }
+
+        /* DONUT CHART */
+        .donut-chart-container {
+            position: relative;
+            height: 320px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .donut-svg {
+            transform: rotate(-90deg);
+            width: 300px;
+            height: 300px;
+            filter: drop-shadow(0 0 12px rgba(56, 189, 248, 0.15));
+        }
+
+        /* SLIDE 10: FUNDING / BUDGET LAYOUT */
+        .budget-grid {
+            display: grid;
+            grid-template-columns: 340px 1fr;
+            gap: 50px;
+            align-items: center;
+            height: 100%;
+        }
+
+        .funding-label-box {
+            position: absolute;
+            inset: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            pointer-events: none;
+            text-align: center;
+        }
+
+        .funding-total-num {
+            font-family: var(--font-display);
+            font-size: 48px;
+            font-weight: 700;
+            line-height: 1;
+            background: linear-gradient(to right, #ffffff, var(--color-primary));
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .funding-total-sub {
+            margin-top: 10px;
+            font-size: 11px;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            color: var(--color-text-muted);
+            font-family: var(--font-display);
+        }
+
+        .budget-list {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .budget-list-item {
+            display: grid;
+            grid-template-columns: 1fr auto;
+            align-items: center;
+            gap: 16px;
+            padding: 12px 18px 12px 22px;
+            background: var(--color-bg-card);
+            border: 1px solid rgba(255, 255, 255, 0.06);
+            border-radius: 10px;
+            position: relative;
+            overflow: hidden;
+            transition: transform 0.2s ease, border-color 0.2s ease, background 0.2s ease;
+        }
+
+        .budget-list-item::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 0;
+            bottom: 0;
+            width: 4px;
+            background: var(--accent, var(--color-primary));
+        }
+
+        .budget-list-item:hover {
+            transform: translateX(4px);
+            border-color: rgba(255, 255, 255, 0.14);
+            background: rgba(17, 24, 39, 0.9);
+        }
+
+        .budget-item-num {
+            display: inline-block;
+            font-family: var(--font-display);
+            font-weight: 700;
+            font-size: 13px;
+            color: var(--accent, var(--color-primary));
+            margin-right: 8px;
+            min-width: 18px;
+        }
+
+        .budget-item-title {
+            font-size: 14px;
+            font-weight: 600;
+            color: #f1f5f9;
+            line-height: 1.3;
+        }
+
+        .budget-item-sub {
+            display: block;
+            margin-top: 3px;
+            font-size: 11.5px;
+            color: var(--color-text-muted);
+            line-height: 1.35;
+        }
+
+        .budget-item-value {
+            text-align: right;
+            white-space: nowrap;
+        }
+
+        .budget-item-pct {
+            font-family: var(--font-display);
+            font-weight: 700;
+            font-size: 22px;
+            color: #ffffff;
+            line-height: 1;
+        }
+
+        .budget-item-amount {
+            display: block;
+            font-size: 11.5px;
+            color: var(--color-text-muted);
+            margin-top: 4px;
+            letter-spacing: 0.5px;
+        }
+
+    </style>
+</head>
+<body>
+
+    <div id="deck-viewport">
+        
+        <!-- PRESENTATION CONTROL BAR -->
+        <div id="control-bar">
+            <button class="btn-ctrl" id="prev-btn" title="上一张 (Left Arrow)"><i class="fa-solid fa-chevron-left"></i></button>
+            <div id="slide-indicator">1 / 11</div>
+            <button class="btn-ctrl" id="next-btn" title="下一张 (Space / Right Arrow)"><i class="fa-solid fa-chevron-right"></i></button>
+            <button class="btn-ctrl" id="fullscreen-btn" title="全屏模式 (F)"><i class="fa-solid fa-expand"></i></button>
+        </div>
+
+        <div id="slides-container">
+
+            <!-- SLIDE 1: COVER -->
+            <div class="slide active" id="slide-1">
+                <div class="cover-layout">
+                    <div class="cover-badge">Angel Round Pitch Deck</div>
+                    <h1 class="cover-title">LIFT AI 具身升维科技</h1>
+                    <div class="cover-subtitle">基于自研世界模型的具身智能 Infra 领航者</div>
+                    <p style="color: var(--color-secondary); font-family: var(--font-display); font-size: 16px; margin-bottom: 40px; text-transform: uppercase; letter-spacing: 4px;">
+                        3D大模型时代的先驱者 &nbsp;✦&nbsp; 具身智能时代的引航员
+                    </p>
+                    <div class="cover-meta">
+                        <div class="cover-meta-item">主讲人: <strong>任逸飞 (创始人 / CEO)</strong>  <strong> 钱诚 (创始人 / CTO)</strong> </div>
+                        <!-- <div class="cover-meta-item">融资规模: <strong>5,000万元人民币</strong></div>
+                        <div class="cover-meta-item">项目性质: <strong>机密商业计划书 (仅供天使轮融资使用)</strong></div> -->
+                    </div>
+                </div>
+            </div>
+
+            <!-- SLIDE 2: INDUSTRY PAIN POINTS -->
+            <div class="slide" id="slide-2">
+                <div class="slide-header">
+                    <div class="slide-title-group">
+                        <h2><i class="fa-solid fa-triangle-exclamation"></i> 规模化瓶颈：具身智能缺失“物理常识”</h2>
+                        <div class="slide-subtitle-en">Industrial Bottleneck: The "Re-teaching" Curse</div>
+                    </div>
+                    <div class="slide-logo">LIFT<span>AI</span></div>
+                </div>
+                <div class="slide-content">
+                    <div class="grid-2">
+                        <div>
+                            <h3 style="font-size: 24px; margin-bottom: 20px; color: #fff;">为什么现有的机器人“不够聪明”？</h3>
+                            <p style="margin-bottom: 16px; color: #cbd5e1;">工业及服务场景中最大的瓶颈，不是本体硬件、不是计算算力，而是其<span class="hl">极差的通用泛化能力</span>：面对多变的环境和未见过的物体，机器人需要高昂的工程部署和再次教导成本。</p>
+                            <ul style="list-style-type: none; margin-left: 0;">
+                                <li style="margin-bottom: 12px; display: flex; align-items: flex-start; gap: 10px;">
+                                    <i class="fa-solid fa-circle-xmark" style="color: #ef4444; margin-top: 4px;"></i>
+                                    <div><strong>泛化性极其脆弱：</strong> 换个光照、背景、位姿，整个传统的定位和操作脚本就会崩溃。</div>
+                                </li>
+                                <li style="margin-bottom: 12px; display: flex; align-items: flex-start; gap: 10px;">
+                                    <i class="fa-solid fa-circle-xmark" style="color: #ef4444; margin-top: 4px;"></i>
+                                    <div><strong>高昂的教导负担：</strong> 每次更换零部件或改变产线，都需要长达2-3周的人工标定。</div>
+                                </li>
+                                <li style="margin-bottom: 12px; display: flex; align-items: flex-start; gap: 10px;">
+                                    <i class="fa-solid fa-circle-xmark" style="color: #ef4444; margin-top: 4px;"></i>
+                                    <div><strong>数据盲区与黑盒：</strong> 传统的行为克隆完全不理解客观物理机理，导致动作执行极不可预测。</div>
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="tech-card" style="padding: 30px; display: flex; flex-direction: column; justify-content: center; height: 100%; background: rgba(239, 68, 68, 0.03); border-color: rgba(239, 68, 68, 0.2);">
+                            <h4 style="font-size: 18px; color: #ef4444; margin-bottom: 15px;"><i class="fa-solid fa-skull-crossbones"></i> 核心反思：缺乏对宏观世界的“直觉常识”</h4>
+                            <div style="background: rgba(15,23,42,0.8); border-radius: 8px; padding: 15px; margin-bottom: 15px; border-left: 4px solid #ef4444;">
+                                <span style="font-size: 13px; color: var(--color-text-muted);">盲动试错限制：</span>
+                                <p style="font-size: 14px; font-weight: 600; color: #fff; margin-top: 4px;">机器人必须首先具备“脑内物理预演”的能力，能够理解空间规律，才能进行长程、鲁棒的高精度自适应操作。</p>
+                            </div>
+                            <div style="background: rgba(15,23,42,0.8); border-radius: 8px; padding: 15px; border-left: 4px solid var(--color-primary);">
+                                <span style="font-size: 13px; color: var(--color-primary);">升维科技的选择：</span>
+                                <p style="font-size: 14px; font-weight: 600; color: #fff; margin-top: 4px;">构建机器人专属的“世界模型”，赋予其直觉的物理演化预判本领。</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="slide-footer">
+                    <div class="slide-footer-left">
+                        <span>3D 大模型时代的先驱者</span>
+                        <span>|</span>
+                        <span>具身升维科技 BP</span>
+                    </div>
+                    <div>CONFIDENTIAL - SLIDE 2</div>
+                </div>
+            </div>
+
+            <!-- SLIDE 3: WORLD MODEL INTRO -->
+            <div class="slide" id="slide-3">
+                <div class="slide-header">
+                    <div class="slide-title-group">
+                        <h2><i class="fa-solid fa-brain"></i> 自研世界模型：物理规律的“智脑模拟器”</h2>
+                        <div class="slide-subtitle-en">LIFTAI WORLD MODEL: The Intuitive Physical Engine</div>
+                    </div>
+                    <div class="slide-logo">LIFT<span>AI</span></div>
+                </div>
+                <div class="slide-content">
+                    <div class="grid-2">
+                        <video style="height: 380px; width: 100%; object-fit: contain; background: #000;" controls autoplay loop muted playsinline>
+                            <source src="media/wam_infer.mp4" type="video/mp4">
+                        </video>
+                        <div>
+                            <h3 style="font-size: 24px; margin-bottom: 20px; color: #fff;">为什么世界模型是具身的终极钥匙？</h3>
+                            <p style="margin-bottom: 16px; color: #cbd5e1;">通过自研的大规模视频多模态世界模型，我们将机器人算法从原有的“黑盒机械克隆”升级为“主动意图预测”：</p>
+                            <div class="tech-card" style="margin-bottom: 15px; padding: 16px;">
+                                <h4 style="font-size: 15px; color: var(--color-primary); margin-bottom: 6px;"><i class="fa-solid fa-cube"></i> 三维一致性预测 (3D Physical Projection)</h4>
+                                <p style="font-size: 13px; color: #cbd5e1;">模型精准学习现实中物体的重量分布、惯性、形变以及力学传递，预测物理结果绝对一致，具备绝对物理尺度。</p>
+                            </div>
+                            <div class="tech-card" style="padding: 16px;">
+                                <h4 style="font-size: 15px; color: var(--color-accent); margin-bottom: 6px;"><i class="fa-solid fa-bolt"></i> 极速脑内回溯</h4>
+                                <p style="font-size: 13px; color: #cbd5e1;">机器人遇到复杂和长尾障碍物时，无需实际物理破坏尝试，在脑内进行多维路径虚拟生成，输出极佳的安全操作弧线。</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="slide-footer">
+                    <div class="slide-footer-left">
+                        <span>让机器人理解常识</span>
+                        <span>|</span>
+                        <span>自研 WAM 核心架构</span>
+                    </div>
+                    <div>CONFIDENTIAL - SLIDE 3</div>
+                </div>
+            </div>
+
+            <!-- SLIDE 4: ACTION-CONDITIONED SIMULATOR --> 
+            <div class="slide" id="slide-4"> 
+                <div class="slide-header"> 
+                    <div class="slide-title-group"> 
+                        <h2><i class="fa-solid fa-wand-magic-sparkles"></i> 物理预测：动作控制下的物理概率演化</h2> 
+                        <div class="slide-subtitle-en">Action-Conditioned Future Prediction Simulator</div> 
+                    </div> 
+                    <div class="slide-logo">LIFT<span>AI</span></div> 
+                </div> 
+                <div class="slide-content"> 
+                    <div class="grid-2"> 
+                        <div> 
+                            <h3 style="font-size: 22px; margin-bottom: 15px; color: var(--color-primary);">条件式潜空间预测生成</h3> 
+                            <p style="margin-bottom: 16px; color: #cbd5e1;">相比常规 AIGC 生成式视频，升维 WAM 模型强制注入了机器人的<span class="hl">动作自控制反馈 (Action Tokens)</span>：</p> 
+                            <ul style="list-style: none; margin-bottom: 15px;"> 
+                                <li style="margin-bottom: 10px; font-size: 14px;"><i class="fa-solid fa-angles-right" style="color: var(--color-primary); margin-right: 8px;"></i> <strong>多路径假设生成：</strong> 输入不同的轨迹，输出对应的物理状态预演。</li> 
+                                <li style="margin-bottom: 10px; font-size: 14px;"><i class="fa-solid fa-angles-right" style="color: var(--color-primary); margin-right: 8px;"></i> <strong>长程意图自对齐：</strong> 精确跟踪未遮挡区域的物体迁移状态。</li> 
+                                <li style="font-size: 14px;"><i class="fa-solid fa-angles-right" style="color: var(--color-primary); margin-right: 8px;"></i> <strong>高保真动作解耦：</strong> 将视频帧内的相对变换完美解耦为关节的控制矢量。</li> 
+                            </ul> 
+                            <!-- 提示框已移除 -->
+                        </div> 
+                        <!-- VIDEO PLAYER REPLACING SIMULATOR --> 
+                        <div> 
+                            <div class="simulator-box" id="pcd-sim-container"> 
+                                <div class="sim-grid-overlay"></div> 
+                                <div class="pcd-canvas-mock"> 
+                                    <!-- <div class="pcd-label">WAM Action-conditioned Simulator</div> -->
+                                    <video width="100%" height="100%" controls autoplay loop muted style="border-radius: 8px; object-fit: cover;">
+                                        <source src="media/storage_tableware.mp4" type="video/mp4">
+                                        您的浏览器不支持 video 标签。
+                                    </video>
+                                </div> 
+                                <!-- 按钮区域已移除 -->
+                            </div> 
+                        </div> 
+                    </div> 
+                </div> 
+                <div class="slide-footer"> 
+                    <div class="slide-footer-left"> 
+                        <span>实时闭环条件生成</span> 
+                        <span>|</span> 
+                        <span>空间一致性约束</span> 
+                    </div> 
+                    <div>CONFIDENTIAL - SLIDE 4</div> 
+                </div> 
+            </div>
+            <!-- SLIDE: 工业场景案例 -->
+            <div class="slide" id="slide-5">
+                <div class="slide-header">
+                    <!-- <div class="slide-title-group">
+                        <h2><i class="fa-solid fa-industry"></i> 工业场景案例：精密柔性装配产线落地</h2>
+                        <div class="slide-subtitle-en">Industrial Use Case: Precision Flexible Assembly Line</div>
+                    </div> -->
+                    <div class="slide-logo">LIFT<span>AI</span></div>
+                </div>
+                <div class="slide-content">
+                    <div class="grid-2" style="align-items: center;">
+                        <!-- 左侧：视频展示区 -->
+                        <div>
+                            <div class="simulator-box" style="height: 720px;">
+                                <div class="sim-grid-overlay"></div>
+                                <video width="100%" height="100%" controls autoplay loop muted playsinline style="border-radius: 8px; object-fit: cover; position: relative; z-index: 2;">
+                                    <source src="media/demo.mp4" type="video/mp4">
+                                    您的浏览器不支持 video 标签。
+                                </video>
+                            </div>
+                        </div>
+                        
+                        <!-- 右侧：案例说明 -->
+                        <div>
+                            <h3 style="font-size: 22px; margin-bottom: 15px; color: var(--color-primary);">
+                                <i class="fa-solid fa-microchip"></i> 汽车装配产线落地案例
+                            </h3>
+                            <p style="margin-bottom: 20px; color: #cbd5e1; line-height: 1.6;">
+                                基于自研 WAM 世界模型，机器人无需复杂编程即可自适应未知工件位姿，实现高精度、高良率的柔性装配任务。
+                            </p>
+                            
+                            <div style="display: flex; flex-direction: column; gap: 15px;">
+                                <div class="tech-card" style="padding: 14px; background: rgba(56, 189, 248, 0.05);">
+                                    <div style="display: flex; align-items: center; gap: 12px;">
+                                        <i class="fa-solid fa-chart-line" style="color: #22c55e; font-size: 20px;"></i>
+                                        <div>
+                                            <strong style="color: #fff;">装配成功率</strong>
+                                            <span style="color: #22c55e; margin-left: 8px;">↑ 96.5%</span>
+                                            <p style="font-size: 12px; color: var(--color-text-muted); margin-top: 4px;">相比传统方案提升 32%</p>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <div class="tech-card" style="padding: 14px; background: rgba(56, 189, 248, 0.05);">
+                                    <div style="display: flex; align-items: center; gap: 12px;">
+                                        <i class="fa-solid fa-clock" style="color: var(--color-primary); font-size: 20px;"></i>
+                                        <div>
+                                            <strong style="color: #fff;">部署周期</strong>
+                                            <span style="color: var(--color-primary); margin-left: 8px;">↓ 75%</span>
+                                            <p style="font-size: 12px; color: var(--color-text-muted); margin-top: 4px;">从 4 周缩短至 1 周</p>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <div class="tech-card" style="padding: 14px; background: rgba(56, 189, 248, 0.05);">
+                                    <div style="display: flex; align-items: center; gap: 12px;">
+                                        <i class="fa-solid fa-cubes" style="color: var(--color-accent); font-size: 20px;"></i>
+                                        <div>
+                                            <strong style="color: #fff;">跨品类泛化</strong>
+                                            <span style="color: var(--color-accent); margin-left: 8px;">支持 50+ 种</span>
+                                            <p style="font-size: 12px; color: var(--color-text-muted); margin-top: 4px;">只需10条以内轨迹训练即可适配新工件</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="slide-footer">
+                    <div class="slide-footer-left">
+                        <span>精密制造 · 真实落地案例</span>
+                        <span>|</span>
+                        <span>效率与良率双提升</span>
+                    </div>
+                    <div>CONFIDENTIAL - SLIDE 5</div>
+                </div>
+            </div>
+            <!-- SLIDE 5: WORLD MODEL DETAILS (PLACEHOLDERS)
+            <div class="slide" id="slide-5">
+                <div class="slide-header">
+                    <div class="slide-title-group">
+                        <h2><i class="fa-solid fa-video"></i> 潜空间多模态感知与未来预演</h2>
+                        <div class="slide-subtitle-en">Multi-view Egocentric Future Previews</div>
+                    </div>
+                    <div class="slide-logo">LIFT<span>AI</span></div>
+                </div>
+                <div class="slide-content">
+                    <div class="grid-3" style="height: 320px; margin-bottom: 20px;">
+                        <div class="media-placeholder">
+                            <i class="fa-solid fa-image"></i>
+                            <p style="font-weight:600;">[INPUT IMAGE PLACEHOLDER]</p>
+                            <span style="font-size:11px; margin-top:8px; color: var(--color-text-muted);">第一视角初始图像标定</span>
+                        </div>
+                        <div class="media-placeholder">
+                            <i class="fa-solid fa-arrows-to-dot"></i>
+                            <p style="font-weight:600;">[ACTION VECTOR PLACEHOLDER]</p>
+                            <span style="font-size:11px; margin-top:8px; color: var(--color-text-muted);">多通道受力动作控制标记对</span>
+                        </div>
+                        <div class="media-placeholder" style="border-color: var(--color-primary);">
+                            <i class="fa-solid fa-clapperboard"></i>
+                            <p style="font-weight:600; color: var(--color-primary);">[FUTURE VIDEO PREVIEW PLACEHOLDER]</p>
+                            <span style="font-size:11px; margin-top:8px; color: var(--color-text-muted);">世界模型预测生成的下一阶段演化序列</span>
+                        </div>
+                    </div>
+                    <div class="card" style="padding: 15px 25px; text-align: center;">
+                        <p style="font-size: 14px;">
+                            通过世界模型，我们将“复杂的真机动作调试”完美升级为“高物理一致性的端到端无损视觉逻辑进化”，支持任意物体。
+                        </p>
+                    </div>
+                </div>
+                <div class="slide-footer">
+                    <div class="slide-footer-left">
+                        <span>多视角标定融合</span>
+                        <span>|</span>
+                        <span>未来演化图像对</span>
+                    </div>
+                    <div>CONFIDENTIAL - SLIDE 5</div>
+                </div>
+            </div> -->
+
+            <!-- SLIDE 6: INFRA STRATEGY
+            <div class="slide" id="slide-6">
+                <div class="slide-header">
+                    <div class="slide-title-group">
+                        <h2><i class="fa-solid fa-server"></i> 主攻方向：构建具身智能的基础设施 (Infra)</h2>
+                        <div class="slide-subtitle-en">Universal Embodied AI Infrastructure</div>
+                    </div>
+                    <div class="slide-logo">LIFT<span>AI</span></div>
+                </div>
+                <div class="slide-content">
+                    <div class="grid-3">
+                        <div class="tech-card">
+                            <i class="fa-solid fa-database" style="font-size: 28px; color: var(--color-primary); margin-bottom: 12px;"></i>
+                            <h3 style="font-size: 18px; margin-bottom: 8px; color:#fff;">1. 人类世界认知预训练</h3>
+                            <p style="font-size: 13px; color: var(--color-text-muted); line-height: 1.5;">
+                                从海量人类视频中学习物理世界规律。基于大规模第一视角人类视频数据，学习物体属性、空间关系、操作逻辑与长时程任务规划能力，构建通用世界模型基础能力。
+                            </p>
+                        </div>
+                        <div class="tech-card">
+                            <i class="fa-solid fa-cloud" style="font-size: 28px; color: var(--color-primary); margin-bottom: 12px;"></i>
+                            <h3 style="font-size: 18px; margin-bottom: 8px; color:#fff;">2. 人机协同技能对齐</h3>
+                            <p style="font-size: 13px; color: var(--color-text-muted); line-height: 1.5;">
+                                利用人类与机器人协同示范数据，建立人类动作与机器人执行之间的映射关系，实现跨本体、跨场景的技能迁移与泛化。
+                            </p>
+                        </div>
+                        <div class="tech-card">
+                            <i class="fa-solid fa-vials" style="font-size: 28px; color: var(--color-primary); margin-bottom: 12px;"></i>
+                            <h3 style="font-size: 18px; margin-bottom: 8px; color:#fff;">3. 真实环境强化进化</h3>
+                            <p style="font-size: 13px; color: var(--color-text-muted); line-height: 1.5;">
+                                通过真实机器人交互与强化学习反馈，不断提升策略鲁棒性、任务成功率与复杂环境适应能力，实现规模化部署闭环。
+                            </p>
+                        </div>
+                    </div>
+                    <div class="media-placeholder" style="margin-top: 25px; height: 160px;">
+                        <p>[IMAGE PLACEHOLDER: WAM Infra 及数据流向拓扑图]</p>
+                    </div>
+                </div>
+                <div class="slide-footer">
+                    <div class="slide-footer-left">
+                        <span>算力与数据统一交汇</span>
+                        <span>|</span>
+                        <span>Infra 构建</span>
+                    </div>
+                    <div>CONFIDENTIAL - SLIDE 6</div>
+                </div>
+            </div> -->
+
+            <!-- SLIDE 7: DATA ENGINE -->
+            <div class="slide" id="slide-6">
+                <div class="slide-header">
+                    <div class="slide-title-group">
+                        <h2><i class="fa-solid fa-database"></i> 数据飞轮：从第一视角人类交互中吸收常识</h2>
+                        <div class="slide-subtitle-en">The Egocentric Physical Data Engine</div>
+                    </div>
+                    <div class="slide-logo">LIFT<span>AI</span></div>
+                </div>
+                <div class="slide-content">
+                    <div class="grid-2">
+                        <!-- <div class="media-placeholder" style="height: 380px;">
+                            <i class="fa-solid fa-vr-cardboard"></i>
+                            <p style="font-weight:700;">[IMAGE PLACEHOLDER: 人类佩戴AR/手套设备交互采集数据]</p>
+                        </div> -->
+                        <video style="height: 380px; width: 100%; object-fit: contain; background: #000;" controls autoplay loop muted playsinline>
+                            <source src="media/0.mp4" type="video/mp4">
+                        </video>
+                        <div style="display: flex; flex-direction: column; justify-content: center; gap: 20px;">
+                            <div class="tech-card" style="border-left: 4px solid var(--color-primary);">
+                                <h4 style="font-size: 18px; color:#fff; margin-bottom: 5px;">第一视角（Egocentric）独特优势</h4>
+                                <p style="font-size: 13px; color: var(--color-text-muted);">
+                                    完美对齐了视觉注意力、空间感知与肌肉运动的物理控制动机，极易训练出符合自然规律的世界。
+                                </p>
+                            </div>
+                            <div class="tech-card" style="border-left: 4px solid var(--color-secondary);">
+                                <h4 style="font-size: 18px; color:#fff; margin-bottom: 5px;">极大压缩获取周期</h4>
+                                <p style="font-size: 13px; color: var(--color-text-muted);">
+                                    无需昂贵的工业级真臂长时间空耗。轻量穿戴硬件能以 100x 传统效率采集人类灵巧操作数据集。
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="slide-footer">
+                    <div class="slide-footer-left">
+                        <span>人机第一视角对齐</span>
+                        <span>|</span>
+                        <span>高密度多模态飞轮</span>
+                    </div>
+                    <div>CONFIDENTIAL - SLIDE 7</div>
+                </div>
+            </div>
+
+            <!-- SLIDE 8: FOUNDING DREAM TEAM -->
+            <div class="slide" id="slide-7">
+                <div class="slide-header">
+                    <div class="slide-title-group">
+                        <h2><i class="fa-solid fa-people-group"></i> 创始合伙人：顶尖科研底色与商业洞察力</h2>
+                        <div class="slide-subtitle-en">The Academic & Industrial Elite Team</div>
+                    </div>
+                    <div class="slide-logo">LIFT<span>AI</span></div>
+                </div>
+                <div class="slide-content">
+                    <div class="team-grid">
+                        <!-- CARD 1 -->
+                        <div class="member-card active" data-member="ceo">
+                            <div class="avatar-placeholder"><i class="fa-solid fa-brain"></i></div>
+                            <div class="member-name">任逸飞</div>
+                            <div class="member-role">CEO / 创始人</div>
+                            <div class="member-tags">
+                                <span class="m-tag">帝国理工硕博</span>
+                                <span class="m-tag">南开本科 AI & 金融双学位</span>
+                                <span class="m-tag">创赛冠军</span>
+                            </div>
+                        </div>
+
+                        <!-- CARD 2 -->
+                        <div class="member-card" data-member="cto">
+                            <div class="avatar-placeholder"><i class="fa-solid fa-eye"></i></div>
+                            <div class="member-name">钱诚</div>
+                            <div class="member-role">CTO / 联合创始人</div>
+                            <div class="member-tags">
+                                <span class="m-tag">帝国理工博士在读</span>
+                                <span class="m-tag">TUM 硕士最优等学位</span>
+                                <span class="m-tag">大厂核心骨干</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- DYNAMIC DETAIL PANEL -->
+                    <div id="team-detail-panel">
+                        <div class="detail-title" id="member-detail-title">
+                            <i class="fa-solid fa-graduation-cap"></i> 创始科学家背景介绍
+                        </div>
+                        <div class="detail-desc" id="member-detail-desc">
+                            帝国理工计算机系博士，专注于机器人深度模仿学习与3D计算机视觉。南开大学人工智能与金融双学位获得者。曾创立极客公园大赛冠军项目，荣获亚马逊机器人领域杰出博士成就奖。具备深厚的产学研商业变现逻辑。
+                        </div>
+                    </div>
+                </div>
+                <div class="slide-footer">
+                    <div class="slide-footer-left">
+                        <span>帝国理工博士团队创始人</span>
+                        <span>|</span>
+                        <span>大厂核心能力</span>
+                    </div>
+                    <div>CONFIDENTIAL - SLIDE 8</div>
+                </div>
+            </div>
+
+            <!-- SLIDE 9: BUSINESS PATHS -->
+            <div class="slide" id="slide-8">
+                <div class="slide-header">
+                    <div class="slide-title-group">
+                        <h2><i class="fa-solid fa-money-bill-transfer"></i> 商业飞轮：软硬解耦的具身大脑服务商</h2>
+                        <div class="slide-subtitle-en">The Universal Robotics SaaS Monetization Paths</div>
+                    </div>
+                    <div class="slide-logo">LIFT<span>AI</span></div>
+                </div>
+                <div class="slide-content">
+                    <div class="grid-3" style="align-items: stretch;">
+                        <div class="tech-card" style="display: flex; flex-direction: column; justify-content: space-between;">
+                            <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 12px;">
+                                <i class="fa-solid fa-shield-halved" style="color: var(--color-primary); font-size: 20px;"></i>
+                                <h4 style="font-size: 16px; color:#fff;">1. WAM 世界模型 SDK</h4>
+                            </div>
+                            <p style="font-size: 13px; color: var(--color-text-muted); line-height: 1.6;">
+                                面向机器人本体厂商、VLA团队及智能设备企业，提供预训练世界模型能力，实现环境理解、未来预测、物理常识推理与跨场景泛化，大幅降低机器人数据需求与部署成本。
+                            </p>
+                        </div>
+                        <div class="tech-card" style="display: flex; flex-direction: column; justify-content: space-between;">
+                            <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 12px;">
+                                <i class="fa-solid fa-database" style="color: var(--color-primary); font-size: 20px;"></i>
+                                <h4 style="font-size: 16px; color:#fff;">2. 数据生成与仿真基础设施</h4>
+                            </div>
+                            <p style="font-size: 13px; color: var(--color-text-muted); line-height: 1.6;">
+                                基于人类第一视角数据、数字孪生与世界模型，自动生成高质量机器人训练数据、未来轨迹预测数据及多视角交互数据，为行业提供规模化、低成本的数据基础设施服务。
+                            </p>
+                        </div>
+                        <div class="tech-card" style="display: flex; flex-direction: column; justify-content: space-between;">
+                            <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 12px;">
+                                <i class="fa-solid fa-rocket" style="color: var(--color-primary); font-size: 20px;"></i>
+                                <h4 style="font-size: 16px; color:#fff;">3. 垂直场景智能体交付</h4>
+                            </div>
+                            <p style="font-size: 13px; color: var(--color-text-muted); line-height: 1.6;">
+                                聚焦精密柔性装配、商业清洁等高价值场景，提供从世界模型、策略模型到边缘部署的一体化解决方案，实现机器人快速上线与持续优化。
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                <div class="slide-footer">
+                    <div class="slide-footer-left">
+                        <span>模型底座云端服务模式</span>
+                        <span>|</span>
+                        <span>高效软硬件生态解耦</span>
+                    </div>
+                    <div>CONFIDENTIAL - SLIDE 9</div>
+                </div>
+            </div>
+
+
+            <!-- SLIDE 11: ROADMAP TAB-PANEL -->
+            <div class="slide" id="slide-9">
+                <div class="slide-header">
+                    <div class="slide-title-group">
+                        <h2><i class="fa-solid fa-timeline"></i> WAM 基础模型平台 18个月关键里程碑</h2>
+                        <div class="slide-subtitle-en">The 18-month Core Milestones and Deliverables</div>
+                    </div>
+                    <div class="slide-logo">LIFT<span>AI</span></div>
+                </div>
+                <div class="slide-content">
+                    <div class="roadmap-timeline">
+                        <div class="roadmap-phase" style="--phase-color: var(--color-primary);">
+                            <div class="roadmap-phase-marker">A</div>
+                            <div>
+                                <div class="roadmap-phase-time">0 — 6 个月</div>
+                                <div class="roadmap-phase-title">多场景世界模型验证</div>
+                                <div class="roadmap-phase-subhead">Foundation Validation</div>
+                            </div>
+                            <ul class="roadmap-phase-list">
+                                <li>实现跨场景、多任务、多视角的 World Model (WAM) 能力验证。</li>
+                                <li>完成面向核心战略投资人与下游硬件合作伙伴的标杆级实机 Demo 预演展示。</li>
+                            </ul>
+                        </div>
+                        <div class="roadmap-phase" style="--phase-color: var(--color-accent);">
+                            <div class="roadmap-phase-marker">B</div>
+                            <div>
+                                <div class="roadmap-phase-time">6 — 12 个月</div>
+                                <div class="roadmap-phase-title">规模化数据与场景落地</div>
+                                <div class="roadmap-phase-subhead">Data Engine &amp; Vertical Scaling</div>
+                            </div>
+                            <ul class="roadmap-phase-list">
+                                <li>建立大规模具身智能 Egocentric 数据引擎并完善数据流闭环资产保护。</li>
+                                <li>完成重点垂直操作场景的数据闭环与模型专有化训练体系建设，实现特定场景深度能力无缝落地。</li>
+                            </ul>
+                        </div>
+                        <div class="roadmap-phase" style="--phase-color: #22c55e;">
+                            <div class="roadmap-phase-marker">C</div>
+                            <div>
+                                <div class="roadmap-phase-time">12 — 18 个月</div>
+                                <div class="roadmap-phase-title">场景优化与商业化验证</div>
+                                <div class="roadmap-phase-subhead">Productization &amp; Commercial Pilot</div>
+                            </div>
+                            <ul class="roadmap-phase-list">
+                                <li>持续提升模型跨场景泛化能力、物理任务操作成功率与边缘侧推理效率。</li>
+                                <li>完成重点行业应用场景的产品化验证与大规模闭环，为下一阶段规模化商业部署及后续大额融资奠定核心基础。</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <div class="slide-footer">
+                    <div class="slide-footer-left">
+                        <span>三阶段严格递进技术节点</span>
+                        <span>|</span>
+                        <span>双周迭代开发系统</span>
+                    </div>
+                    <div>CONFIDENTIAL - SLIDE 11</div>
+                </div>
+            </div>
+
+            <!-- SLIDE 12: SUMMARY PENTAGRAM -->
+            <div class="slide" id="slide-10">
+                <div class="slide-header">
+                    <div class="slide-title-group">
+                        <h2><i class="fa-solid fa-star"></i> 具身升维：投资核心亮点总结</h2>
+                        <div class="slide-subtitle-en">The Core Competitive Advantages and Value Summary</div>
+                    </div>
+                    <div class="slide-logo">LIFT<span>AI</span></div>
+                </div>
+                <div class="slide-content">
+                    <div class="grid-4" style="align-items: stretch;">
+                        
+                        <div class="tech-card" style="text-align: center; display: flex; flex-direction: column; justify-content: space-between;">
+                            <div style="font-size: 26px; color: var(--color-primary); margin-bottom: 10px;"><i class="fa-solid fa-users"></i></div>
+                            <h4 style="font-size: 16px; margin-bottom: 8px; color: #fff;">顶尖创始天团</h4>
+                            <p style="font-size: 11px; color: var(--color-text-muted); line-height: 1.5;">
+                                帝国理工计算机系在读博士，具备国际一线的 3D 视觉和强化模仿算法学术积累。
+                            </p>
+                        </div>
+
+                        <div class="tech-card" style="text-align: center; display: flex; flex-direction: column; justify-content: space-between;">
+                            <div style="font-size: 26px; color: var(--color-primary); margin-bottom: 10px;"><i class="fa-solid fa-bolt"></i></div>
+                            <h4 style="font-size: 16px; margin-bottom: 8px; color: #fff;">自研物理脑世界模型</h4>
+                            <p style="font-size: 11px; color: var(--color-text-muted); line-height: 1.5;">
+                                彻底摆脱僵化的传统黑盒机械克隆。世界模型脑内物理预演，打通泛化的关键壁垒。
+                            </p>
+                        </div>
+
+                        <div class="tech-card" style="text-align: center; display: flex; flex-direction: column; justify-content: space-between;">
+                            <div style="font-size: 26px; color: var(--color-primary); margin-bottom: 10px;"><i class="fa-solid fa-shield-halved"></i></div>
+                            <h4 style="font-size: 16px; margin-bottom: 8px; color: #fff;">核心数据与Infra资产</h4>
+                            <p style="font-size: 11px; color: var(--color-text-muted); line-height: 1.5;">
+                                第一视角（Egocentric）自研采集引擎，形成极低成本数据自动扩增与仿真飞轮护城河。
+                            </p>
+                        </div>
+
+                        <div class="tech-card" style="text-align: center; display: flex; flex-direction: column; justify-content: space-between; background: rgba(56, 189, 248, 0.05); border-color: var(--color-primary);">
+                            <div style="font-size: 26px; color: var(--color-primary); margin-bottom: 10px;"><i class="fa-solid fa-rocket"></i></div>
+                            <h4 style="font-size: 16px; margin-bottom: 8px; color: #fff;">高天花板高壁垒商业化</h4>
+                            <p style="font-size: 11px; color: var(--color-text-muted); line-height: 1.5;">
+                                从精密柔性装配和高附加值商业清洁切入，实现软硬件解耦的大Saas模式扩张。
+                            </p>
+                        </div>
+
+                    </div>
+                </div>
+                <div class="slide-footer">
+                    <div class="slide-footer-left">
+                        <span>一脑通用</span>
+                        <span>|</span>
+                        <span>全面解决长尾瓶颈</span>
+                    </div>
+                    <div>CONFIDENTIAL - SLIDE 12</div>
+                </div>
+            </div>
+
+            <!-- SLIDE 13: VISION & THANK YOU -->
+            <div class="slide" id="slide-11">
+                <div class="cover-layout">
+                    <div class="cover-badge" style="border-color: var(--color-accent); color: var(--color-accent); background: rgba(139, 92, 246, 0.1);">Join the Physical AI Revolution</div>
+                    <h1 class="cover-title" style="font-size: 56px;">让世界，升一维。</h1>
+                    <div class="cover-subtitle" style="font-size: 20px; color: var(--color-text-muted);">
+                        致力于让每一个物理智能本体具备快速感知、自适应操作的物理预测智脑
+                    </div>
+                    
+                    <div style="margin: 40px 0; background: rgba(56, 189, 248, 0.05); border: 1px solid var(--color-border); padding: 20px 40px; border-radius: 12px; width: 60%; text-align: center;">
+                        <h4 style="font-size: 16px; color: var(--color-primary); margin-bottom: 8px;">具身升维科技 (LIFTAI) 融资对接小组</h4>
+                        <p style="font-size: 14px; color: #fff;">核心联络信箱：<strong>contact@liftai.tech</strong></p>
+                        <p style="font-size: 12px; color: var(--color-text-muted); margin-top: 4px;">CEO 微信联络：请扫创始合伙人个人专页 (slide 8) 快捷沟通</p>
+                    </div>
+
+                    <p style="font-size: 11px; color: rgba(255,255,255,0.2);">© 2026 具身升维科技. All rights reserved. LIFTAI 拥有本文档的最终解释权。</p>
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+
+    <!-- PPT INTERACTIVE SCRIPTS -->
+    <script>
+        // SLIDE NAVIGATION STATE
+        let currentSlide = 1;
+        const totalSlides = 11;
+
+        const updateSlideUI = () => {
+            document.querySelectorAll('.slide').forEach(slide => {
+                slide.classList.remove('active');
+                // Pause any videos on slides leaving view so they don't keep playing in background.
+                slide.querySelectorAll('video').forEach(v => { try { v.pause(); } catch (e) {} });
+            });
+            const targetSlide = document.getElementById(`slide-${currentSlide}`);
+            if (targetSlide) {
+                targetSlide.classList.add('active');
+                // Restart any videos on the newly-active slide from the beginning.
+                targetSlide.querySelectorAll('video').forEach(v => {
+                    try {
+                        v.currentTime = 0;
+                        const p = v.play();
+                        if (p && typeof p.catch === 'function') p.catch(() => {});
+                    } catch (e) {}
+                });
+            }
+
+            document.getElementById('slide-indicator').innerText = `${currentSlide} / ${totalSlides}`;
+        };
+
+        const nextSlide = () => {
+            if (currentSlide < totalSlides) {
+                currentSlide++;
+                updateSlideUI();
+            }
+        };
+
+        const prevSlide = () => {
+            if (currentSlide > 1) {
+                currentSlide--;
+                updateSlideUI();
+            }
+        };
+
+        document.getElementById('next-btn').addEventListener('click', nextSlide);
+        document.getElementById('prev-btn').addEventListener('click', prevSlide);
+
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'ArrowRight' || e.key === ' ' || e.key === 'Enter') {
+                e.preventDefault();
+                nextSlide();
+            } else if (e.key === 'ArrowLeft' || e.key === 'Backspace') {
+                e.preventDefault();
+                prevSlide();
+            } else if (e.key === 'f' || e.key === 'F') {
+                toggleFullScreen();
+            }
+        });
+
+        const toggleFullScreen = () => {
+            const viewport = document.getElementById('deck-viewport');
+            if (!document.fullscreenElement) {
+                viewport.requestFullscreen().catch(err => {
+                    console.log(`Error entering fullscreen: ${err.message}`);
+                });
+            } else {
+                document.exitFullscreen();
+            }
+        };
+        document.getElementById('fullscreen-btn').addEventListener('click', toggleFullScreen);
+
+
+        // FOUNDING TEAM CARD INTERACTION (Ren Yifei & Qian Cheng)
+        const teamData = {
+            ceo: {
+                title: "任逸飞 | CEO 创始人学术背景与商业优势",
+                desc: "帝国理工计算机系在读博士，专注于机器人深度模仿学习与3D计算机视觉。南开大学人工智能与金融双学位获得者。曾创立极客公园创赛冠军项目“Palette”，荣获亚马逊机器人领域杰出博士成就二等奖。具备出色的底层算法能力与开阔的商业变现洞察力。"
+            },
+            cto: {
+                title: "钱诚 | CTO 联合创始人学术积淀",
+                desc: "帝国理工计算机在读博士，主研世界模型与模仿学习系统。慕尼黑工业大学 (TUM) 硕士学位最优秀等级完成者。曾先后担任国内头部两家具身大厂的感知及策略执行主力架构骨干，工业经验丰富。"
+            }
+        };
+
+        document.querySelectorAll('.member-card').forEach(card => {
+            card.addEventListener('click', function() {
+                document.querySelectorAll('.member-card').forEach(c => c.classList.remove('active'));
+                this.classList.add('active');
+
+                const member = this.getAttribute('data-member');
+                const detail = teamData[member];
+
+                document.getElementById('member-detail-title').innerHTML = `<i class="fa-solid fa-graduation-cap"></i> ${detail.title}`;
+                document.getElementById('member-detail-desc').innerText = detail.desc;
+            });
+        });
+
+
+
+
+        // ROBOTIC ARM CANVAS ANIMATION & ACTION PREDICTION SIMULATOR
+        const canvas = document.getElementById('robotic-arm-canvas');
+        const ctx = canvas.getContext('2d');
+        let armAngle = 0;
+        let gripperPos = 0;
+        let isPredicting = false;
+        let particles = [];
+
+        const resizeCanvas = () => {
+            canvas.width = canvas.parentElement.clientWidth;
+            canvas.height = canvas.parentElement.clientHeight;
+        };
+        
+        window.addEventListener('load', () => {
+            resizeCanvas();
+            drawSimulator();
+        });
+        window.addEventListener('resize', resizeCanvas);
+
+        class Particle {
+            constructor(x, y, color) {
+                this.x = x;
+                this.y = y;
+                this.vx = (Math.random() - 0.5) * 4;
+                this.vy = (Math.random() - 0.5) * 4;
+                this.alpha = 1;
+                this.color = color || 'var(--color-primary)';
+            }
+            update() {
+                this.x += this.vx;
+                this.y += this.vy;
+                this.alpha -= 0.015;
+            }
+            draw() {
+                ctx.save();
+                ctx.globalAlpha = this.alpha;
+                ctx.fillStyle = this.color;
+                ctx.beginPath();
+                ctx.arc(this.x, this.y, 3, 0, Math.PI * 2);
+                ctx.fill();
+                ctx.restore();
+            }
+        }
+
+        const drawSimulator = () => {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+            const baseWidth = 80;
+            const baseHeight = 20;
+            const baseCenter = { x: canvas.width / 2 - 40, y: canvas.height - 50 };
+
+            // Draw Base
+            ctx.fillStyle = '#1e293b';
+            ctx.fillRect(baseCenter.x - baseWidth/2, baseCenter.y, baseWidth, baseHeight);
+            
+            // Kinetic calculations
+            const link1Len = 100;
+            const link2Len = 80;
+
+            const joint1 = {
+                x: baseCenter.x,
+                y: baseCenter.y
+            };
+
+            const joint2 = {
+                x: joint1.x + Math.cos(armAngle) * link1Len,
+                y: joint1.y + Math.sin(armAngle) * link1Len
+            };
+
+            const joint3 = {
+                x: joint2.x + Math.cos(armAngle + Math.PI/4) * link2Len,
+                y: joint2.y + Math.sin(armAngle + Math.PI/4) * link2Len
+            };
+
+            // Draw Arm Link 1
+            ctx.strokeStyle = 'var(--color-secondary)';
+            ctx.lineWidth = 14;
+            ctx.lineCap = 'round';
+            ctx.beginPath();
+            ctx.moveTo(joint1.x, joint1.y);
+            ctx.lineTo(joint2.x, joint2.y);
+            ctx.stroke();
+
+            // Draw Link 1 joint
+            ctx.fillStyle = 'var(--color-primary)';
+            ctx.beginPath();
+            ctx.arc(joint2.x, joint2.y, 8, 0, Math.PI*2);
+            ctx.fill();
+
+            // Draw Link 2
+            ctx.strokeStyle = 'var(--color-primary)';
+            ctx.lineWidth = 8;
+            ctx.beginPath();
+            ctx.moveTo(joint2.x, joint2.y);
+            ctx.lineTo(joint3.x, joint3.y);
+            ctx.stroke();
+
+            // Draw End Effector (Gripper)
+            ctx.save();
+            ctx.translate(joint3.x, joint3.y);
+            ctx.rotate(armAngle + Math.PI/4);
+            ctx.strokeStyle = 'var(--color-accent)';
+            ctx.lineWidth = 4;
+            
+            // Left claw
+            ctx.beginPath();
+            ctx.moveTo(0, -10);
+            ctx.lineTo(15, -15 - gripperPos);
+            ctx.lineTo(25, -5 - gripperPos);
+            ctx.stroke();
+
+            // Right claw
+            ctx.beginPath();
+            ctx.moveTo(0, 10);
+            ctx.lineTo(15, 15 + gripperPos);
+            ctx.lineTo(25, 5 + gripperPos);
+            ctx.stroke();
+            ctx.restore();
+
+            // Draw virtual target object
+            ctx.fillStyle = '#f59e0b';
+            ctx.beginPath();
+            ctx.roundRect(canvas.width/2 + 80, canvas.height - 100, 30, 45, 4);
+            ctx.fill();
+
+            // WAM Predictive wireframe trajectory ghost overlay (if prediction is active)
+            if (isPredicting) {
+                if (Math.random() > 0.3) {
+                    particles.push(new Particle(joint3.x, joint3.y, 'rgba(56, 189, 248, 0.7)'));
+                    particles.push(new Particle(canvas.width/2 + 95, canvas.height - 80, 'rgba(139, 92, 246, 0.7)'));
+                }
+
+                // Render Action-Conditioned bounding box predictions
+                ctx.strokeStyle = 'rgba(34, 197, 94, 0.6)';
+                ctx.lineWidth = 1.5;
+                ctx.setLineDash([4, 4]);
+                // Future predicted trace lines
+                ctx.strokeRect(canvas.width/2 + 65, canvas.height - 120, 60, 85);
+                ctx.fillStyle = 'rgba(34, 197, 94, 0.12)';
+                ctx.fillRect(canvas.width/2 + 65, canvas.height - 120, 60, 85);
+                ctx.setLineDash([]);
+
+                // Add virtual action prediction steps text
+                ctx.fillStyle = 'rgba(34, 197, 94, 0.9)';
+                ctx.font = '11px var(--font-display)';
+                ctx.fillText("Future Predict T+5s", canvas.width/2 + 40, canvas.height - 130);
+            }
+
+            // Update particles
+            particles.forEach((p, idx) => {
+                p.update();
+                p.draw();
+                if (p.alpha <= 0) particles.splice(idx, 1);
+            });
+
+            // Simulator logic loop
+            if (isPredicting) {
+                armAngle = -Math.PI/2 + Math.sin(Date.now() / 350) * 0.45;
+                gripperPos = Math.abs(Math.sin(Date.now() / 600)) * 6;
+            } else {
+                armAngle = -Math.PI/2;
+                gripperPos = 0;
+            }
+
+            requestAnimationFrame(drawSimulator);
+        };
+
+        document.getElementById('btn-trigger-prediction').addEventListener('click', () => {
+            isPredicting = true;
+        });
+
+        document.getElementById('btn-reset-arm').addEventListener('click', () => {
+            isPredicting = false;
+            particles = [];
+        });
+
+
+        // SCALE WINDOW FIT
+        function adjustScale() {
+            const viewport = document.getElementById('deck-viewport');
+            const targetW = 1280, targetH = 720;
+            // In fullscreen the deck-viewport is the fullscreen root; its own
+            // containing block is the screen. Use the screen size in that case
+            // so the deck scales up to fill the display.
+            const inFullscreen = !!document.fullscreenElement;
+            const winW = inFullscreen ? (window.screen.width || window.innerWidth) : window.innerWidth;
+            const winH = inFullscreen ? (window.screen.height || window.innerHeight) : window.innerHeight;
+            const scale = Math.min(winW / targetW, winH / targetH);
+            viewport.style.transform = `translate(-50%, -50%) scale(${scale})`;
+        }
+        window.addEventListener('resize', adjustScale);
+        window.addEventListener('load', adjustScale);
+        document.addEventListener('fullscreenchange', adjustScale);
+        document.addEventListener('webkitfullscreenchange', adjustScale);
+
+    </script>
+</body>
+</html>
